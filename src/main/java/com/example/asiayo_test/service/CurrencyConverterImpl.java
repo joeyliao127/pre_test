@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class CurrencyConverterImpl implements CurrencyConverter {
 
   @Override
-  public BigDecimal convertUSDToTWD(BigDecimal amount) {
+  public BigDecimal convertCurrency(BigDecimal amount) {
     return amount.multiply(new BigDecimal(31));
   }
 }

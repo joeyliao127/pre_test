@@ -35,3 +35,43 @@ LIMIT 10;
 透過 index 搜尋，預估查詢 11 行，通過率為 100 %
 
 ## API 實作測驗
+
+### SOLID 原則
+
+**SRP 單一職責原則**
+
+每一個 class 指負責一項主題，Ex.
+- OrderParamsValidationServiceImpl 是和參數驗證相關的 service。
+- CurrencyConverterImpl 是專門用於匯率轉換。
+- Controller 不會處理數據的轉換與格式驗證。
+
+**OCP 開閉原則**
+
+controller單向呼叫service，未來在修改、擴充程式碼時，可以基於原有的service進行擴充，而不動到原有的程式碼。
+
+**ISP 介面隔離原則**
+
+由於 request body 中的參數需要經過驗證、轉換幣別等流程，因此將 **驗證** 與 **轉換幣別** 拆成兩個 Interface，分別是 `CurrencyConverter` 和 `OrderParamsValidationService`， 避免一個過大的介面，導致其他 class 在調用時，依賴介面中用不到的method。
+
+**DIP反向依賴原則**
+
+`OrdersController` (高層模組) 在調用 `OrderService` (低層模組) 時，是依賴於 `OrderService` Interface，而非實作類別。
+
+`OrdersController` 在 constructor 定義建構參數必須有 `OrderService`，透過依賴注入的方式取得實作。
+
+`OrderServiceImpl` 也在 constructor 中，透過 `OrderParamsValidationService` 和 `CurrencyConverter` 介面取得實作。
+
+### 設計模式
+透過 `CurrencyConverter` 實現策略模式。
+未來若有其他幣別需要轉換，如 JPY 轉為 TWD ，只需要新增class 並 implement `CurrencyConverter`介面，即可變換幣別轉換的策略。 
+
+
+
+
+
+
+
+
+
+
+

@@ -35,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
     String currency = orderPOJO.getCurrency();
     if(currency.equals("USD")) {
       BigDecimal price = orderPOJO.getPrice();
-      BigDecimal transformedPrice = this.currencyConverter.convertUSDToTWD(price);
+      BigDecimal transformedPrice = this.currencyConverter.convertCurrency(price);
 
       if(!this.validationService.validatePriceLimit(transformedPrice)) {
         throw new PricingOutOfRangeException("Price is over 2000");

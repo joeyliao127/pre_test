@@ -15,7 +15,7 @@ public class CurrencyConverterImplTest {
 
   @Test
   public void testConvertUSDToTWD() {
-    BigDecimal result1 = this.currencyConverter.convertUSDToTWD(new BigDecimal(100));
+    BigDecimal result1 = this.currencyConverter.convertCurrency(new BigDecimal(100));
     BigDecimal expected1 = new BigDecimal(3100);
     BigDecimal expected2 = new BigDecimal(3500);
     assertEquals(expected1, result1);
