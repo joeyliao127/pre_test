@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
       BigDecimal price = orderPOJO.getPrice();
       BigDecimal transformedPrice = this.currencyConverter.convertUSDToTWD(price);
 
-      if(!this.validationService.validatePrice(transformedPrice)) {
+      if(!this.validationService.validatePriceLimit(transformedPrice)) {
         throw new PricingOutOfRangeException("Price is over 2000");
       }
 
@@ -58,11 +58,11 @@ public class OrderServiceImpl implements OrderService {
       throw new InvalidNameFormatException("Name contains non-English characters");
     }
 
-    if(!this.validationService.validateNameStart(name)) {
+    if(!this.validationService.validateNameFirstLetter(name)) {
       throw new InvalidNameFormatException("Name is not Capitalized");
     }
 
-    if(!this.validationService.validatePrice(price)) {
+    if(!this.validationService.validatePriceLimit(price)) {
       throw new PricingOutOfRangeException("Price is over 2000");
     }
 

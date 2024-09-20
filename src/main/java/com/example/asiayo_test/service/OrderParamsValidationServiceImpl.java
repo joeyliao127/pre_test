@@ -13,12 +13,12 @@ public class OrderParamsValidationServiceImpl implements OrderParamsValidationSe
   }
 
   @Override
-  public boolean validateNameStart(String name) {
+  public boolean validateNameFirstLetter(String name) {
     return name.matches("^[A-Z].*");
   }
 
   @Override
-  public boolean validatePrice(BigDecimal price){
+  public boolean validatePriceLimit(BigDecimal price){
     BigDecimal limit = new BigDecimal(2000);
     return price.compareTo(limit) <= 0;
   }
