@@ -1,6 +1,9 @@
 package com.example.asiayo_test.service;
 
 import com.example.asiayo_test.dto.OrderDTO;
+import com.example.asiayo_test.exception.InvalidCurrencyException;
+import com.example.asiayo_test.exception.InvalidNameFormatException;
+import com.example.asiayo_test.exception.PricingOutOfRangeException;
 import com.example.asiayo_test.pojo.OrderPOJO;
 import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,48 @@ public class OrderServiceImpl implements OrderService {
   }
 
   @Override
-  public OrderDTO transformOrder(OrderPOJO orderPOJO) {
+  public OrderDTO transformOrder(OrderPOJO orderPOJO)
+      throws InvalidNameFormatException, PricingOutOfRangeException, InvalidCurrencyException {
 
+    this.validateOrderParams(orderPOJO.getName(), orderPOJO.getPrice(), orderPOJO.getCurrency());
+
+    OrderDTO orderDTO = new OrderDTO();
+
+    orderDTO.setId(orderPOJO.getId());
+    orderDTO.setName(orderPOJO.getName());
+    orderDTO.setAddress(orderPOJO.getAddress());
+
+    String currency = orderPOJO.getCurrency();
+    if(currency.equals("USD")) {
+      BigDecimal price = orderPOJO.getPrice();
+      BigDecimal transformedPrice = this.currencyConverter.convertUSDToTWD(price);
+      orderDTO.setPrice(transformedPrice);
+      orderDTO.setCurrency("TWD");
+    } else {
+      orderDTO.setCurrency(orderPOJO.getCurrency());
+      orderDTO.setPrice(orderPOJO.getPrice());
+    }
+
+    return orderDTO;
+  }
+
+  private void validateOrderParams(String name, BigDecimal price, String currency)
+      throws InvalidNameFormatException, InvalidCurrencyException, PricingOutOfRangeException {
+
+    if(!this.validationService.validateNameLetter(name)) {
+      throw new InvalidNameFormatException("Name contains non-English characters");
+    }
+
+    if(!this.validationService.validateNameStart(name)) {
+      throw new InvalidNameFormatException("Name is not Capitalized");
+    }
+
+    if(!this.validationService.validatePrice(price)) {
+      throw new PricingOutOfRangeException("Price is over 2000");
+    }
+
+    if(!this.validationService.validateCurrency(currency)) {
+      throw new InvalidCurrencyException("Currency format is wrong");
+    }
   }
 }

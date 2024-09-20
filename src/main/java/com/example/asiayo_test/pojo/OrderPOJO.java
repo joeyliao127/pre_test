@@ -1,5 +1,7 @@
 package com.example.asiayo_test.pojo;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -14,9 +16,11 @@ public class OrderPOJO {
   private String name;
 
   @NotNull
+  @Valid
   private Address address;
 
   @NotNull
+  @Min(1)
   private BigDecimal price;
 
   @NotBlank

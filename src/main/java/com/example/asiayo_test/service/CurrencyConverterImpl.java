@@ -8,6 +8,6 @@ public class CurrencyConverterImpl implements CurrencyConverter {
 
   @Override
   public BigDecimal convertUSDToTWD(BigDecimal amount) {
-    return null;
+    return amount.multiply(new BigDecimal(31));
   }
 }

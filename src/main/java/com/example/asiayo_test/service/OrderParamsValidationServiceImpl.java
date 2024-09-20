@@ -1,26 +1,30 @@
 package com.example.asiayo_test.service;
 
 import java.math.BigDecimal;
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 @Service
 public class OrderParamsValidationServiceImpl implements OrderParamsValidationService {
 
   @Override
-  public void validateName(String name) {
-
+  public boolean validateNameLetter(String name) {
+    String trimmedName = name.replace(" ", "");
+    return trimmedName.matches("[a-zA-Z]*$");
   }
 
   @Override
-  public void validatePrice(BigDecimal price) {
-
+  public boolean validateNameStart(String name) {
+    return name.matches("^[A-Z].*");
   }
 
   @Override
-  public void validateCurrency(String currency) {
+  public boolean validatePrice(BigDecimal price){
+    BigDecimal limit = new BigDecimal(2000);
+    return price.compareTo(limit) <= 0;
+  }
 
+  @Override
+  public boolean validateCurrency(String currency) {
+    return currency.equals("TWD") || currency.equals("USD");
   }
 }

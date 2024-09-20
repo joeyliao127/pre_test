@@ -1,6 +1,9 @@
 package com.example.asiayo_test.controller;
 
 import com.example.asiayo_test.dto.OrderDTO;
+import com.example.asiayo_test.exception.InvalidCurrencyException;
+import com.example.asiayo_test.exception.InvalidNameFormatException;
+import com.example.asiayo_test.exception.PricingOutOfRangeException;
 import com.example.asiayo_test.pojo.OrderPOJO;
 import com.example.asiayo_test.service.OrderService;
 import jakarta.validation.Valid;
@@ -19,7 +22,8 @@ public class OrdersController {
   }
 
   @PostMapping("/api/orders")
-  public ResponseEntity<OrderDTO> transformCurrency(@Valid @RequestBody OrderPOJO orderPOJO) {
+  public ResponseEntity<OrderDTO> transformCurrency(@Valid @RequestBody OrderPOJO orderPOJO)
+      throws InvalidNameFormatException, PricingOutOfRangeException, InvalidCurrencyException {
     OrderDTO orderDTO = orderService.transformOrder(orderPOJO);
     return ResponseEntity.status(200).body(orderDTO);
   }
