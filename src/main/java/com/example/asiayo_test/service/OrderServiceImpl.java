@@ -53,21 +53,9 @@ public class OrderServiceImpl implements OrderService {
 
   private void validateOrderParams(String name, BigDecimal price, String currency)
       throws InvalidNameFormatException, InvalidCurrencyException, PricingOutOfRangeException {
-
-    if(!this.validationService.validateNameLetter(name)) {
-      throw new InvalidNameFormatException("Name contains non-English characters");
-    }
-
-    if(!this.validationService.validateNameFirstLetter(name)) {
-      throw new InvalidNameFormatException("Name is not Capitalized");
-    }
-
-    if(!this.validationService.validatePriceLimit(price)) {
-      throw new PricingOutOfRangeException("Price is over 2000");
-    }
-
-    if(!this.validationService.validateCurrency(currency)) {
-      throw new InvalidCurrencyException("Currency format is wrong");
-    }
+    this.validationService.validateNameLetter(name);
+    this.validationService.validateNameFirstLetter(name);
+    this.validationService.validatePriceLimit(price);
+    this.validationService.validateCurrency(currency);
   }
 }
