@@ -3,7 +3,11 @@
 - [API 實作測驗](#api-實作測驗)
 ## 資料庫測驗
 
-### 問題一
+### 題目一
+請寫出一條查詢語句 (SQL)，列出在 2023 年 5 月下訂的訂單，使用台幣付款且5月總金額最
+多的前 10 筆的旅宿 ID (bnb_id), 旅宿名稱 (bnb_name), 5 月總金額 (may_amount)
+
+回答：
 ```sql
 SELECT b.id, b.name as bnb_name, sum(o.amount) as may_amount
 FROM bnbs b
@@ -16,7 +20,11 @@ ORDER BY sum(o.amount) DESC
 LIMIT 10;
 ```
 
-### 問題二
+### 題目二
+在題目一的執行下，我們發現 SQL 執行速度很慢，您會怎麼去優化？請闡述您怎麼判斷與優
+化的方式
+
+回答：
 1. 當 `WHERE` 條件後會使用到的欄位，可以加上 index 優化搜尋效率。
 2. 可以在查詢的 SQL 前加上 `EXPLAIN` 確認效果，查看 Query 執行時預估掃描的行數。
 3. 使用覆蓋索引，將表中的多欄位設定為同一個 index
