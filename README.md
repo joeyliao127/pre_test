@@ -73,7 +73,8 @@ controller單向呼叫service，未來在修改、擴充程式碼時，可以基
 透過 `CurrencyConverter` 實現策略模式。
 未來若有其他幣別需要轉換，如 JPY 轉為 TWD ，只需要新增class 並 implement `CurrencyConverter`介面，即可變換幣別轉換的策略。 
 
-
+## Docker-compose
+將專案 clone 到本地後，執行 `docker-compose up -d --build` 啟動專案，服務運行在 `8080` port。
 
 
 
