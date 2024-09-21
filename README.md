@@ -25,7 +25,7 @@ LIMIT 10;
 化的方式
 
 回答：
-1. 當 `WHERE` 條件後會使用到的欄位，可以加上 index 優化搜尋效率。
+1. `WHERE` 條件查詢會使用到的欄位，可以加上 index 優化搜尋效率。
 2. 可以在查詢的 SQL 前加上 `EXPLAIN` 確認效果，查看 Query 執行時預估掃描的行數。
 3. 使用覆蓋索引，將表中的多欄位設定為同一個 index
 
@@ -51,7 +51,7 @@ LIMIT 10;
 每一個 class 指負責一項主題，Ex.
 - OrderParamsValidationServiceImpl 是和參數驗證相關的 service。
 - CurrencyConverterImpl 是專門用於匯率轉換。
-- Controller 不會處理數據的轉換與格式驗證。
+- Controller 只負責接收和回應訊息，不會處理數據的轉換與格式驗證。
 
 **OCP 開閉原則**
 
@@ -63,11 +63,11 @@ controller單向呼叫service，未來在修改、擴充程式碼時，可以基
 
 **DIP反向依賴原則**
 
-`OrdersController` (高層模組) 在調用 `OrderService` (低層模組) 時，是依賴於 `OrderService` Interface，而非實作類別。
+`OrdersController` (高層模組) 在調用 `OrderServiceImpl` (低層模組) 時，是依賴於 `OrderService` Interface，而非實作類別。
 
 `OrdersController` 在 constructor 定義建構參數必須有 `OrderService`，透過依賴注入的方式取得實作。
 
-`OrderServiceImpl` 也在 constructor 中，透過 `OrderParamsValidationService` 和 `CurrencyConverter` 介面取得實作。
+`OrderServiceImpl` 依賴 `OrderParamsValidationServiceImpl` 和 `CurrencyConverterImpl`，因此在`OrderServiceImpl` 的 constructor 定義建構參數 `OrderParamsValidationService` 和 `CurrencyConverter` 參數，透過依賴注入取得實作。
 
 ### 設計模式
 透過 `CurrencyConverter` 實現策略模式。
